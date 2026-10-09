@@ -1,0 +1,230 @@
+<html>
+  <head>
+    <title>Découvrir le NEXT</title>
+    <link rel="stylesheet" type="text/css" href="css/suiteCSS.css" />
+  </head>
+
+  <body>
+    <h2 id="titre"></h2>
+
+    <div class="logo">
+      <img
+        align="right"
+        src="./images/page_login/logo.png"
+        style="width: 150px; height: 150px"
+      />
+    </div>
+
+    <div class="conteneur_image">
+      <span class="SpanImage1">
+        <img class="ImageGauche" id="ImageGauche" />
+      </span>
+
+      <button id="boutonGauche" class="BoutonGauche" onclick="precedent()">
+        <img class="LaGauche" src="./images/page_next/fleche_gauche.png" />
+      </button>
+
+      <span class="SpanImage2">
+        <img class="ImageCentre" id="ImageCentre" />
+      </span>
+
+      <button id="boutonDroite" class="BoutonDroite" onclick="suivant()">
+        <img class="LaDroite" src="./images/page_next/fleche_droite.png" />
+      </button>
+
+      <span class="SpanImage3">
+        <img class="ImageDroite" id="ImageDroite" />
+      </span>
+    </div>
+
+    <button class="back">
+      <a href="AccueilV2.html">Retour à la page d'accueil</a>
+    </button>
+
+    <script>
+      // Tableau des images
+      const images = [
+        { src: "./images/page_next/4thfloor.png", nom: "Étage 4" },
+        { src: "./images/page_next/5thfloor.jpg", nom: "Étage 5" },
+        { src: "./images/page_next/6thfloor.jpg", nom: "Étage 6" },
+      ];
+
+      let index = 0;
+
+      // Fonction principale d'affichage
+      function afficher() {
+        // Image centrale
+        document.getElementById("ImageCentre").src = images[index].src;
+        document.getElementById("titre").innerText = images[index].nom;
+
+        // Image gauche (circulaire)
+        let indexGauche = (index - 1 + images.length) % images.length;
+        document.getElementById("ImageGauche").src = images[indexGauche].src;
+
+        // Image droite (circulaire)
+        let indexDroite = (index + 1) % images.length;
+        document.getElementById("ImageDroite").src = images[indexDroite].src;
+      }
+
+      // Bouton suivant (boucle infinie)
+      function suivant() {
+        index = (index + 1) % images.length;
+        afficher();
+      }
+
+      // Bouton précédent (boucle infinie)
+      function precedent() {
+        index = (index - 1 + images.length) % images.length;
+        afficher();
+      }
+
+      // Initialisation
+      afficher();
+    </script>
+  </body>
+</html>
+
+<!--
+<html>
+  <head>
+    <title>Découvrir le NEXT</title>
+
+    <link rel="stylesheet" type="text/css" href="css/suiteCSS.css" />
+  </head>
+  <body>
+    <h2 id="titre">Étage 4</h2>
+
+    <div class="logo">
+      <img
+        align="right"
+        src="./images/page_login/logo.png"
+        style="width: 150px; height: 150px"
+      />
+    </div>
+
+    <div class="conteneur_image">
+      <span class="SpanImage1"
+        ><img
+          class="ImageGauche"
+          id="ImageGauche"
+          align="center"
+          src="./images/page_next/4thfloor.png"
+      /></span>
+      <button id="boutonGauche" class="BoutonGauche" onclick="precedent()">
+        <img class="LaGauche" src="./images/page_next/fleche_gauche.png" />
+      </button>
+      <span class="SpanImage2"
+        ><img
+          class="ImageCentre"
+          id="ImageCentre"
+          align="center"
+          src="./images/page_next/5thfloor.jpg"
+      /></span>
+
+      <button id="boutonDroite" class="BoutonDroite" onclick="suivant()">
+        <img class="LaDroite" src="./images/page_next/fleche_droite.png" />
+      </button>
+      <span class="SpanImage3"
+        ><img
+          class="ImageDroite"
+          id="ImageDroite"
+          align="center"
+          src="./images/page_next/6thfloor.jpg"
+      /></span>
+    </div>
+
+    <button class="back">
+      <a href="AccueilV2.html">Retour à la page d'accueil</a>
+    </button>
+
+    <script>
+      const images = [
+        { src: "./images/page_next/4thfloor.png", nom: "Étage 4" },
+        { src: "./images/page_next/5thfloor.jpg", nom: "Étage 5" },
+        { src: "./images/page_next/6thfloor.jpg", nom: "Étage 6" },
+      ];
+
+      let index = 0;
+
+      function ImageCentre() {
+        let img = document.getElementById("ImageCentre");
+        let titre = document.getElementById("titre");
+
+        img.src = images[index].src;
+        titre.innerText = images[index].nom;
+      }
+
+      function suivant() {
+        if (index < images.length - 1) {
+          index++;
+          ImageCentre();
+        }
+      }
+
+      function precedent() {
+        if (index > 0) {
+          index--;
+          ImageCentre();
+        }
+      }
+
+      ImageCentre();
+
+      function ImageGauche() {
+        let g = document.getElementById("ImageGauche");
+        let indexGauche = (index - 1 + images.length) % images.length;
+
+        if (index === 0) {
+          g.style.visibility = "hidden";
+        } else {
+          g.src = images[index - 1].src;
+          g.style.visibility = "visible";
+        }
+      }
+
+      function ImageDroite() {
+        let d = document.getElementById("ImageDroite");
+        let indexDroite = (index + 1) % images.length;
+
+        if (index === images.length - 1) {
+          d.style.visibility = "hidden";
+        } else {
+          d.src = images[index + 1].src;
+          d.style.visibility = "visible";
+        }
+      }
+
+      function afficher() {
+        document.getElementById("ImageCentre").src = images[index].src;
+
+        document.getElementById("titre").innerText = images[index].nom;
+
+        ImageGauche();
+        ImageDroite();
+      }
+
+      function suivant() {
+        index = (index + 1) % images.length;
+        afficher();
+
+        //   if (index < images.length - 1) {
+        //     index++;
+        //      afficher();
+        //  }
+      }
+
+      function precedent() {
+        index = (index - 1 + images.length) % images.length;
+        afficher();
+
+        //  if (index > 0) {
+        //    index--;
+        //     afficher();
+        //  }
+      }
+
+      afficher();
+    </script>
+  </body>
+</html>
+-->

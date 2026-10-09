@@ -1,0 +1,112 @@
+<html>
+
+<head>
+
+
+<title>page login</title>
+
+<link rel="stylesheet" type="text/CSS" href="css/StylePageLogin.css">
+
+</head>
+
+<body>
+
+<div class="header">
+    <img 
+        src="./images/page_login/logo.png"
+        width="100px"
+        height="100px"
+    >
+</div>
+
+
+
+<div class="image_centrale">
+    <img 
+        src="./images/page_login/robot.png"
+        width="75px"
+        height="auto"
+    >
+    <h1 align="center-right">WELCOME TO YOUR<br> PERSONAL PLACE</h1>
+    <img src="./images/page_login/etoiles.png" />
+</div>
+
+<div class="image_centrale">
+    <img 
+        src="./images/page_login/image_centrale.png"
+        width="500px"
+        height="300px"
+    >
+</div>
+
+<div class="form-container">
+    <form  id="loginForm" class="formulaire" method="get" action="">
+        <div class="idpass">
+            <label for="name"><strong>Identifiant :</strong></label>  
+            <input type="text" id="name" name="identifiant"/>
+        </div>
+        <div class="idpass">
+            <label for="password"><strong>Mot de passe :</strong></label>
+            <input type="password" id="password" name="motdepasse">
+        </div>
+        <input class="submit_button" type="submit" value="Valider" />
+    </form>
+</div>
+</body>
+
+<script>
+    
+//document.addEventListener("DOMContentLoaded", () => {
+
+    const form = document.getElementById("loginForm");
+
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault(); 
+
+        const email = document.getElementById("name").value;
+        const password = document.getElementById("password").value;
+
+        try {
+            const response = await fetch(`/api/personne?email=${email}`);
+            console.log(response)
+
+            if (!response.ok) {
+                throw new Error("Erreur serveur");
+            }
+
+            const personne = await response.json();
+            console.log(personne)
+
+        
+        
+            if (personne && personne.email === email && personne.MotDePasse === password) {
+
+            localStorage.setItem("prenom", personne.prenom);
+            localStorage.setItem("nom", personne.nom);
+            localStorage.setItem("email", personne.email);
+
+                window.location.href = "AccueilV2.html";
+
+
+
+            } else {
+                alert("Identifiant ou mot de passe incorrect");
+                        }
+
+
+                    }
+        
+       catch (error) {
+            console.error(error);
+           alert("Erreur lors de la connexion");
+        }
+             });
+;
+
+
+
+
+</script>
+
+
+</html>

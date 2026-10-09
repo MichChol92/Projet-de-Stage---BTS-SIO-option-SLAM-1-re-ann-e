@@ -1,0 +1,176 @@
+<html>
+
+<head>
+
+<title>Mes badges et ma progression</title>
+
+<link rel="stylesheet" type="text/css" href="css/BadgesCSS.css">
+
+</head>
+
+<body>
+
+    <div class="header">
+        <div class="profile-card">
+            <div>
+                <strong>Marie Martin</strong><br>
+                Contrat de professionnalisation<br>
+                OT/TL/POW/SMP<br>
+            </div>
+        
+        </div>
+        </div>
+    </div>
+    <div class="logo"><img align="right" src="./images/page_login/logo.png" style="width:125px; height:125px;">
+    </div>
+
+<br><br>
+
+<h1>Mes badges</h1>
+
+<br><br>
+
+<div class="cards">
+
+    <div>
+    <img hidden class="check_mark" src="./images/page_badges/correct.png">
+    <div class="card">
+        
+        
+        <img class="first_badge" src="./images/page_badges/badge_first_steps.png">
+        <h3 align="center">First steps</h3>
+        <p id="first_evolution"></p>
+        <progress id="first" max="100" value="0">70%</progress>
+
+        </div>
+    </div>
+
+    <div class="card">
+        <img class="second_badge" src="./images/page_badges/badge_hse.png">
+        <h3 align="center">HSE Hero</h3>
+        <p id="hse_evolution"></p>
+        <progress id="second" max="100" value="70">70%</progress>
+
+
+    </div>
+    <div class="card">
+        <img class="third_badge" src="./images/page_badges/badge_inno.png">
+       <h3 align="center">Innovator</h3>
+       <p id="inno_evolution"></p>
+       <progress id="third" max="100" value="70">70%</progress>
+        
+    </div>
+
+    <div class="card">
+        <img class="fourth_badge" src="./images/page_badges/badge_networker.png">
+        <h3 align="center">Networker</h3>
+        <p id="network_evolution"></p>
+        <progress id="fourth" max="100" value="70">70%</progress>
+        
+    </div>
+
+
+    <div class="card">
+        <img class="fifth_badge" src="./images/page_badges/badge_explorateur.png">
+        <h3 align="center">Explorator</h3>
+        <p id="explo_evolution"></p>
+        <progress id="fifth" max="100" value="70">70%</progress>
+        
+    </div>
+
+</div>
+
+                
+
+
+<button><a href="AccueilV2.html">Retour à la page d'accueil</a></button>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+
+    const prenom = localStorage.getItem("prenom");
+    const email = localStorage.getItem("email");
+
+    try {
+        const response = await fetch(`/api/niveau?email=${email}`);
+        const personne = await response.json();
+
+        const result = personne.map(item => ({
+            ...item,
+            progression: Math.round((item.isDone / item.nombreTaches) * 100)
+        }));
+
+        console.log(result);
+
+
+        let completedBadges = 0;
+
+        for (let i = 0; i < result.length; i++) {
+
+            const item = result[i];
+
+   
+            if (
+                item.natureBadge === "badge_first_steps" ||
+                item.natureBadge === "badge_hse" ||
+                item.natureBadge === "badge_innovator" ||
+                item.natureBadge === "badge_connect"
+            ) {
+                if (item.isDone === item.nombreTaches) {
+                    completedBadges++;
+                }
+            }
+
+    
+            if (item.natureBadge === "badge_first_steps") {
+                document.getElementById("first_evolution").textContent =
+                    item.isDone + "/" + item.nombreTaches;
+
+                document.getElementById("first").value = item.progression;
+            }
+
+   
+            if (item.natureBadge === "badge_hse") {
+                document.getElementById("hse_evolution").textContent =
+                    item.isDone + "/" + item.nombreTaches;
+
+                document.getElementById("second").value = item.progression;
+            }
+
+
+            if (item.natureBadge === "badge_innovator") {
+                document.getElementById("inno_evolution").textContent =
+                    item.isDone + "/" + item.nombreTaches;
+
+                document.getElementById("third").value = item.progression;
+            }
+
+            if (item.natureBadge === "badge_connect") {
+                document.getElementById("network_evolution").textContent =
+                    item.isDone + "/" + item.nombreTaches;
+
+                document.getElementById("fourth").value = item.progression;
+            }
+        }
+
+   
+        document.getElementById("explo_evolution").textContent =
+            completedBadges + "/4";
+
+        document.getElementById("fifth").value =
+            completedBadges * 25;
+
+    } catch (error) {
+        console.error(error);
+    }
+
+});
+</script>
+
+
+
+</body>
+
+
+</html>
